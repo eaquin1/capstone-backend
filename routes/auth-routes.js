@@ -1,10 +1,9 @@
-require("dotenv/config");
+
 
 const express = require("express");
 const router = express.Router();
 const passport = require("passport")
-const clientId = process.env.CLIENT_ID;
-const clientSecret = process.env.CLIENT_SECRET;
+
 
 
 //auth login
