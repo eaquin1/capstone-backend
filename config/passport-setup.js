@@ -4,7 +4,7 @@ const OAuth2Strategy = require("passport-oauth2").Strategy;
 const clientID = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 const User = require("../models/user");
-const redis_client = require("../redis-config");
+const redis_client = require("./redis-config");
 
 const jwt = require("jsonwebtoken");
 

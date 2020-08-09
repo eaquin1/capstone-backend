@@ -5,7 +5,7 @@ const authRoutes = require("./routes/auth-routes");
 const dataRoutes = require("./routes/data-routes");
 require("./config/passport-setup");
 const session = require("express-session");
-const redisClient = require("./redis-config");
+const redisClient = require("./config/redis-config");
 const redisStore = require("connect-redis")(session);
 const { v4: uuid } = require("uuid");
 
@@ -31,7 +31,7 @@ app.use(
         name: "_redisDemo",
         secret: process.env.SESSION_SECRET,
         resave: false,
-        cookie: { secure: false, maxAge: 60000 }, // Set to secure:false and expire in 1 minute for demo purposes
+        cookie: { secure: false, maxAge: 120000 }, // Set to secure:false and expire in 2 minutes for demo purposes
         saveUninitialized: true,
     })
 );

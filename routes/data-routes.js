@@ -43,7 +43,7 @@ router.get('/events', (req, res) => {
 // GET carbs with Edamam
 router.get('/carbs', (req, res) => {
     //todo: get the food item, weight(?) from user
-    
+    if (req.session.passport.user.access_token){
     axios.get(`https://api.edamam.com/api/food-database/v2/parser?ingr=red%20apple&app_id=${ED_APP_ID}&app_key=${ED_APP_KEY}`)
       .then(function (response) {
         console.log(response.data);
@@ -52,6 +52,7 @@ router.get('/carbs', (req, res) => {
       .catch(function (error) {
         console.log(error);
       });
+    }
 });
 
 
