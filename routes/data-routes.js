@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 require("dotenv/config");
 const axios = require("axios")
+const Meal = require("../models/meal")
 const BASE_URL = 'https://sandbox-api.dexcom.com/v2/users/self'
 const ED_APP_ID = process.env.ED_APP_ID;
 const ED_APP_KEY = process.env.ED_APP_KEY;
@@ -43,7 +44,8 @@ router.get('/events', (req, res) => {
 // GET carbs with Edamam
 router.get('/carbs', (req, res) => {
     //todo: get the food item, weight(?) from user
-    if (req.session.passport.user.access_token){
+    //if (req.session.passport.user.access_token){
+        if(req.session){
     axios.get(`https://api.edamam.com/api/food-database/v2/parser?ingr=red%20apple&app_id=${ED_APP_ID}&app_key=${ED_APP_KEY}`)
       .then(function (response) {
         console.log(response.data);
@@ -55,6 +57,13 @@ router.get('/carbs', (req, res) => {
     }
 });
 
-
+router.post('/addmeal', async (req, res) => {
+    data = {
+       dexcom_id: `59`,
+       foods: ['ice cream', 'chocolate', 'cone'],
+       carb_count: 33
+    }
+    Meal.createMeal(data).then(res => console.log(res))
+})
 
 module.exports = router;
