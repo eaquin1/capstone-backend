@@ -10,7 +10,9 @@ const redisClient = require("./config/redis-config");
 const redisStore = require("connect-redis")(session);
 const { v4: uuid } = require("uuid");
 
-app.use(cors());
+//allow front end calls
+
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -32,7 +34,7 @@ app.use(
         secret: process.env.SESSION_SECRET,
         resave: false,
         maxAge: 2 * 60 * 60 * 1000,
-        cookie: { secure: false }, // Set to secure:false and expire in 2 minutes for demo purposes
+        cookie: { secure: false }, // Set to secure:false for demo purposes
         saveUninitialized: true,
     })
 );
@@ -40,13 +42,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get("/", (req, res, next) => {
-    //res.json("Home")
-    console.log("IS this printing", res.req);
-});
-app.use("/dexcom", (req, res) => {
-    res.json("Dexcom");
-});
 app.use("/auth", authRoutes);
 app.use("/data", dataRoutes);
 
