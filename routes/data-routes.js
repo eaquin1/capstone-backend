@@ -8,18 +8,19 @@ const ED_APP_ID = process.env.ED_APP_ID;
 const ED_APP_KEY = process.env.ED_APP_KEY;
 
 //GET estimated glucose values from Dexcom API
-router.get("/egvs", async (req, res) => {
-    //todo: get the start dates and times from the user
+router.get("/egvs/:startDate&:endDate", async (req, res) => {
+    const { startDate, endDate } = req.params;
+
     try {
         let response = await axios.get(
-            `${BASE_URL}/egvs?startDate=2020-08-18T15:30:00&endDate=2020-08-18T15:45:00`,
+            `${BASE_URL}/egvs?startDate=${startDate}&endDate=${endDate}`,
             {
                 headers: {
                     authorization: `Bearer ${req.session.passport.user.access_token}`,
                 },
             }
         );
-
+        //console.log(response.data);
         return res.json(response.data);
     } catch (error) {
         console.log(error);
@@ -44,6 +45,20 @@ router.get("/events", async (req, res) => {
     }
 });
 
+//GET data range for a user's account
+router.get("/range", async (req, res) => {
+    try {
+        let response = await axios.get(`${BASE_URL}/dataRange`, {
+            headers: {
+                authorization: `Bearer ${req.session.passport.user.access_token}`,
+            },
+        });
+        console.log("range", response.data.egvs);
+        return res.json(response.data.egvs);
+    } catch (error) {
+        console.log(error);
+    }
+});
 // GET carbs with Edamam
 router.get("/carbs", async (req, res) => {
     //todo: get the food item, weight(?) from user
