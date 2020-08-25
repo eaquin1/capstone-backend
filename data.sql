@@ -40,6 +40,7 @@ CREATE TABLE public.users (
 
 CREATE TABLE public.meals (
     id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
     dexcom_id TEXT   NOT NULL,
     foods TEXT[]   NOT NULL,
     carb_count integer,

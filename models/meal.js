@@ -64,13 +64,15 @@ class Meal {
 
     /** POST a single meal */
     static async createMeal(data) {
+        console.log("creating meal");
         const result = await db.query(
             `INSERT INTO meals
-            (dexcom_id, foods, carb_count)
-            VALUES ($1, $2, $3)
-            RETURNING id, dexcom_id, foods, carb_count, date`,
-            [data.dexcom_id, data.foods, data.carb_count]
+            (name, dexcom_id, foods, carb_count, date)
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING id, dexcom_id, name, foods, carb_count, date`,
+            [data.name, data.dexcom_id, data.foods, data.carb_count, data.date]
         );
+        console.log(result.rows[0]);
         return result.rows[0];
     }
 

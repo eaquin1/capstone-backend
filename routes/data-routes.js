@@ -104,14 +104,16 @@ router.post("/carbs", async (req, res) => {
 });
 
 router.post("/addmeal", async (req, res) => {
-    const { mealData } = req.body;
-    console.log("userId", req.session);
-    console.log("meal", req.body);
+    const mealData = req.body.data;
+
     const meal = {
-        dexcom_id: req.session.passsport.user.dexcom_id,
+        dexcom_id: req.session.passport.user.dexcom_id,
+        name: mealData.meal.name,
         foods: mealData.foods,
         carb_count: mealData.meal.carbCount,
+        date: mealData.meal.time,
     };
+    console.log("meal", meal);
     try {
         // data = {
         //     dexcom_id: `59`,
