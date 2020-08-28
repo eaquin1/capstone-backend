@@ -11,7 +11,7 @@ const ED_APP_KEY = process.env.ED_APP_KEY;
 //GET estimated glucose values from Dexcom API
 router.get("/egvs", async (req, res) => {
     const { startDate, endDate } = req.query;
-
+    console.log("dates", startDate, endDate);
     try {
         let response = await axios.get(
             `${BASE_URL_DEX}/egvs?startDate=${startDate}&endDate=${endDate}`,
@@ -21,7 +21,7 @@ router.get("/egvs", async (req, res) => {
                 },
             }
         );
-
+        //console.log(response.data);
         return res.json(response.data);
     } catch (error) {
         console.log(error);
@@ -115,13 +115,26 @@ router.post("/addmeal", async (req, res) => {
     };
     console.log("meal", meal);
     try {
-        // data = {
-        //     dexcom_id: `59`,
-        //     foods: ["ice cream", "chocolate", "cone"],
-        //     carb_count: 33,
-        // };
         const response = await Meal.createMeal(meal);
         return res.status(201).json({ meal });
+    } catch (error) {
+        console.log(error);
+    }
+});
+//get meals within a time range
+router.get("/mealsbytime", async (req, res) => {
+    const { startDate, endDate } = req.query;
+    const dexcomId = req.session.passport.user.dexcom_id;
+
+    try {
+        const response = await Meal.getMealsTimeRange(
+            dexcomId,
+            startDate,
+            endDate
+        );
+
+        console.log("Mealsbytime response", response);
+        return res.json(response);
     } catch (error) {
         console.log(error);
     }

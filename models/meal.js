@@ -11,6 +11,7 @@ class Meal {
     static async getAllMealsForUser(dexcom_id) {
         const mealsResponse = await db.query(
             `SELECT id, dexcom_id, foods, carb_count, date
+            FROM meals
             WHERE id=$1`,
             [dexcom_id]
         );
@@ -18,7 +19,7 @@ class Meal {
         const meals = mealsResponse.rows;
 
         if (!meals) {
-            throw new ExpressError(`No such meal: ${id}`, 404);
+            throw new ExpressError(`No such meal: ${descom_id}`, 404);
         }
 
         return meals;
@@ -31,15 +32,18 @@ class Meal {
      *          ...}    */
 
     static async getMealsTimeRange(dexcom_id, startTime, endTime) {
-        const mealsReponse = await db.query(
+        console.log("DEXID", dexcom_id);
+        console.log("mealtime dates", startTime, endTime);
+        const mealTimes = await db.query(
             `SELECT id, dexcom_id, foods, carb_count, date
-            WHERE id=$1 AND date <=$2 AND date >=$3`,
+            FROM meals
+            WHERE dexcom_id=$1 AND date >=$2 AND date <=$3`,
             [dexcom_id, startTime, endTime]
         );
 
-        const meals = mealsResponse.rows;
+        const meals = mealTimes.rows;
         if (!meals) {
-            throw new ExpressError(`No such meal: ${id}`, 404);
+            throw new ExpressError(`No such meal: ${dexcom_id}`, 404);
         }
 
         return meals;
@@ -49,6 +53,7 @@ class Meal {
     static async getOneMeal(id) {
         const mealResponse = await db.query(
             `SELECT id, dexcom_id, foods, carb_count, date
+            FROM meals
             WHERE id=$1`,
             [id]
         );
