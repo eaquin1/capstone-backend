@@ -44,7 +44,7 @@ CREATE TABLE public.meals (
     dexcom_id TEXT   NOT NULL,
     foods TEXT[]   NOT NULL,
     carb_count integer,
-    date timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    date timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 );
 
 ALTER TABLE ONLY public.meals 

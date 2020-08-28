@@ -110,10 +110,10 @@ router.post("/addmeal", async (req, res) => {
         dexcom_id: req.session.passport.user.dexcom_id,
         name: mealData.meal.name,
         foods: mealData.foods,
-        carb_count: mealData.meal.carbCount,
-        date: mealData.meal.time,
+        carb_count: mealData.meal.carb_count,
+        date: mealData.meal.date,
     };
-    console.log("meal", meal);
+    console.log("meal received at backend", meal);
     try {
         const response = await Meal.createMeal(meal);
         return res.status(201).json({ meal });
