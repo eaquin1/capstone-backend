@@ -7,9 +7,19 @@ const BASE_URL_DEX = "https://sandbox-api.dexcom.com/v2/users/self";
 const BASE_URL_EDAMAM = "https://api.edamam.com/api/food-database/v2";
 const ED_APP_ID = process.env.ED_APP_ID;
 const ED_APP_KEY = process.env.ED_APP_KEY;
-
+const passport = require("passport");
+const authRequired = require("../middleware/auth");
+// const authCheck = (req, res, next) => {
+//     console.log("authcheck", req.session.passport);
+//     if (!req.session.passport) {
+//         // if user is not logged in
+//         res.redirect("http://localhost:3000");
+//     } else {
+//         next();
+//     }
+// };
 //GET estimated glucose values from Dexcom API
-router.get("/egvs", async (req, res) => {
+router.get("/egvs", authRequired, async (req, res, next) => {
     const { startDate, endDate } = req.query;
     console.log("dates", startDate, endDate);
     try {
@@ -21,16 +31,16 @@ router.get("/egvs", async (req, res) => {
                 },
             }
         );
-        //console.log(response.data);
         return res.json(response.data);
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 });
 
 // GET events from Dexcom API
-router.get("/events", async (req, res) => {
+router.get("/events", authRequired, async (req, res, next) => {
     try {
+        console.log(req.session);
         let response = await axios.get(
             `${BASE_URL_DEX}/events?startDate=2020-05-25T15:30:00&endDate=2020-05-25T18:45:00`,
             {
@@ -42,12 +52,12 @@ router.get("/events", async (req, res) => {
 
         return res.json(response.data);
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 });
 
 //GET data range for a user's account
-router.get("/range", async (req, res) => {
+router.get("/range", authRequired, async (req, res, next) => {
     try {
         let response = await axios.get(`${BASE_URL_DEX}/dataRange`, {
             headers: {
@@ -57,11 +67,11 @@ router.get("/range", async (req, res) => {
 
         return res.json(response.data.egvs);
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 });
 // GET carbs with Edamam
-router.get("/foods", async (req, res) => {
+router.get("/foods", authRequired, async (req, res, next) => {
     //todo: get the food item, weight(?) from user
     //if (req.session.passport.user.access_token){
     //if (req.session) {
@@ -76,11 +86,11 @@ router.get("/foods", async (req, res) => {
 
         return res.json(response.data);
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 });
 
-router.post("/carbs", async (req, res) => {
+router.post("/carbs", authRequired, async (req, res, next) => {
     const { quantity, measureURI, foodId } = req.body.data.item;
 
     try {
@@ -99,11 +109,11 @@ router.post("/carbs", async (req, res) => {
 
         return res.json(response.data);
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 });
 
-router.post("/addmeal", async (req, res) => {
+router.post("/addmeal", authRequired, async (req, res, next) => {
     const mealData = req.body.data;
 
     const meal = {
@@ -118,11 +128,11 @@ router.post("/addmeal", async (req, res) => {
         const response = await Meal.createMeal(meal);
         return res.status(201).json({ meal });
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 });
 //get meals within a time range
-router.get("/mealsbytime", async (req, res) => {
+router.get("/mealsbytime", authRequired, async (req, res, next) => {
     const { startDate, endDate } = req.query;
     const dexcomId = req.session.passport.user.dexcom_id;
 
@@ -136,7 +146,7 @@ router.get("/mealsbytime", async (req, res) => {
         console.log("Mealsbytime response", response);
         return res.json(response);
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 });
 

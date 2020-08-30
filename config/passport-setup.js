@@ -21,6 +21,7 @@ passport.deserializeUser(function (id, done) {
     //     }
     // });
     done(null, id);
+    console.log(id);
     // try {
     //     User.findOne(id).then((user) => {
     //         done(null, user);

@@ -9,6 +9,7 @@ const session = require("express-session");
 const redisClient = require("./config/redis-config");
 const redisStore = require("connect-redis")(session);
 const { v4: uuid } = require("uuid");
+const ExpressError = require("./expressError");
 
 //allow front end calls
 
@@ -30,7 +31,7 @@ app.use(
             port: 6379,
             client: redisClient,
         }),
-        name: "_redisDemo",
+        name: "dexcom_user",
         secret: process.env.SESSION_SECRET,
         resave: false,
         maxAge: 2 * 60 * 60 * 1000,
@@ -44,5 +45,25 @@ app.use(passport.session());
 
 app.use("/auth", authRoutes);
 app.use("/data", dataRoutes);
+
+app.use(function (req, res, next) {
+    const err = new ExpressError("Not Found", 404);
+
+    // pass the error to the next piece of middleware
+    return next(err);
+});
+
+/** general error handler */
+
+app.use(function (err, req, res, next) {
+    res.status(err.status || 500);
+    console.error(err.stack);
+    console.log("printing error");
+    console.log("***************************");
+    return res.json({
+        status: err.status,
+        message: err.message,
+    });
+});
 
 module.exports = app;
