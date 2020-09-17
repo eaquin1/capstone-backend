@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-
+const createToken = require("../helpers/createToken");
 // //auth login
 // router.get("/login", (req, res) => {
 //     res.render("login", { user: req.user });
@@ -32,9 +32,13 @@ router.get(
 // callback route for dexcom to redirect to
 router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
     //res.send(req.user);
-    console.log("Inside redirect", req.sessionID);
-
-    res.redirect("http://localhost:3000/home");
+    // console.log("Inside redirect", req.sessionID);
+    // const token = createToken(req.sessionID);
+    // console.log("jwt", token);
+    // res.send(token);
+    res.cookie("id", req.sessionID, {
+        expires: new Date(Date.now() + 7200),
+    }).redirect("http://localhost:3000/home");
 });
 
 module.exports = router;

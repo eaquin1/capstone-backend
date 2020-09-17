@@ -19,7 +19,7 @@ const authRequired = require("../middleware/auth");
 //     }
 // };
 //GET estimated glucose values from Dexcom API
-router.get("/egvs", authRequired, async (req, res, next) => {
+router.get("/egvs", async (req, res, next) => {
     const { startDate, endDate } = req.query;
     console.log("dates", startDate, endDate);
     try {
@@ -38,7 +38,7 @@ router.get("/egvs", authRequired, async (req, res, next) => {
 });
 
 // GET events from Dexcom API
-router.get("/events", authRequired, async (req, res, next) => {
+router.get("/events", async (req, res, next) => {
     try {
         console.log(req.session);
         let response = await axios.get(
@@ -57,7 +57,7 @@ router.get("/events", authRequired, async (req, res, next) => {
 });
 
 //GET data range for a user's account
-router.get("/range", authRequired, async (req, res, next) => {
+router.get("/range", async (req, res, next) => {
     try {
         let response = await axios.get(`${BASE_URL_DEX}/dataRange`, {
             headers: {
@@ -71,7 +71,7 @@ router.get("/range", authRequired, async (req, res, next) => {
     }
 });
 // GET carbs with Edamam
-router.get("/foods", authRequired, async (req, res, next) => {
+router.get("/foods", async (req, res, next) => {
     //todo: get the food item, weight(?) from user
     //if (req.session.passport.user.access_token){
     //if (req.session) {
@@ -90,7 +90,7 @@ router.get("/foods", authRequired, async (req, res, next) => {
     }
 });
 
-router.post("/carbs", authRequired, async (req, res, next) => {
+router.post("/carbs", async (req, res, next) => {
     const { quantity, measureURI, foodId } = req.body.data.item;
 
     try {
@@ -113,13 +113,13 @@ router.post("/carbs", authRequired, async (req, res, next) => {
     }
 });
 
-router.post("/addmeal", authRequired, async (req, res, next) => {
+router.post("/addmeal", async (req, res, next) => {
     const mealData = req.body.data;
 
     const meal = {
         dexcom_id: req.session.passport.user.dexcom_id,
         name: mealData.meal.name,
-        foods: mealData.foods,
+        foods: mealData.meal.foods,
         carb_count: mealData.meal.carb_count,
         date: mealData.meal.date,
     };
@@ -132,7 +132,7 @@ router.post("/addmeal", authRequired, async (req, res, next) => {
     }
 });
 //get meals within a time range
-router.get("/mealsbytime", authRequired, async (req, res, next) => {
+router.get("/mealsbytime", async (req, res, next) => {
     const { startDate, endDate } = req.query;
     const dexcomId = req.session.passport.user.dexcom_id;
 

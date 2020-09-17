@@ -3,7 +3,6 @@
  */
 
 function authRequired(req, res, next) {
-    console.log(req.session);
     try {
         if (req.session.passport.user) {
             console.log("authRequired");
