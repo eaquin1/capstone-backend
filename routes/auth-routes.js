@@ -33,12 +33,13 @@ router.get(
 router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
     //res.send(req.user);
     // console.log("Inside redirect", req.sessionID);
-    // const token = createToken(req.sessionID);
+    //const token = createToken(req.sessionID);
     // console.log("jwt", token);
     // res.send(token);
-    res.cookie("id", req.sessionID, {
-        expires: new Date(Date.now() + 7200),
-    }).redirect("http://localhost:3000/home");
+    // res.cookie("id", req.sessionID, {
+    //     expires: new Date(Date.now() + 7200),
+    // })
+    res.redirect("http://localhost:3000/home");
 });
 
 module.exports = router;

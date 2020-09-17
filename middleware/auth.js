@@ -4,10 +4,11 @@
 
 function authRequired(req, res, next) {
     try {
-        if (req.session.passport.user) {
-            console.log("authRequired");
+        if (req.isAuthenticated()) {
+            console.log("logged in user");
             return next();
         }
+
         throw new Error();
     } catch (err) {
         let unauthorized = new Error("You must authenticate first.");
