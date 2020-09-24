@@ -12,7 +12,7 @@ class Meal {
         const mealsResponse = await db.query(
             `SELECT id, dexcom_id, foods, carb_count, date
             FROM meals
-            WHERE id=$1`,
+            WHERE dexcom_id=$1`,
             [dexcom_id]
         );
 

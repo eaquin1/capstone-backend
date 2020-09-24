@@ -9,15 +9,7 @@ const ED_APP_ID = process.env.ED_APP_ID;
 const ED_APP_KEY = process.env.ED_APP_KEY;
 const passport = require("passport");
 const authRequired = require("../middleware/auth");
-// const authCheck = (req, res, next) => {
-//     console.log("authcheck", req.session.passport);
-//     if (!req.session.passport) {
-//         // if user is not logged in
-//         res.redirect("http://localhost:3000");
-//     } else {
-//         next();
-//     }
-// };
+
 //GET estimated glucose values from Dexcom API
 router.get("/egvs", authRequired, async (req, res, next) => {
     const { startDate, endDate } = req.query;
@@ -71,11 +63,9 @@ router.get("/range", authRequired, async (req, res, next) => {
         next(error);
     }
 });
-// GET carbs with Edamam
+
+// GET food data from Edaman
 router.get("/foods", authRequired, async (req, res, next) => {
-    //todo: get the food item, weight(?) from user
-    //if (req.session.passport.user.access_token){
-    //if (req.session) {
     const { food } = req.query;
 
     try {
@@ -91,6 +81,7 @@ router.get("/foods", authRequired, async (req, res, next) => {
     }
 });
 
+//retrieve the carb data from Edaman
 router.post("/carbs", authRequired, async (req, res, next) => {
     const { quantity, measureURI, foodId } = req.body.data.item;
 
@@ -114,6 +105,7 @@ router.post("/carbs", authRequired, async (req, res, next) => {
     }
 });
 
+//Add a meal
 router.post("/addmeal", authRequired, async (req, res, next) => {
     const mealData = req.body.data;
 
@@ -145,6 +137,20 @@ router.get("/mealsbytime", authRequired, async (req, res, next) => {
         );
 
         console.log("Mealsbytime response", response);
+        return res.json(response);
+    } catch (error) {
+        next(error);
+    }
+});
+
+//get all meals for a user
+router.get("/mealsbyuser", authRequired, async (req, res, next) => {
+    const dexcomId = req.session.passport.user.dexcom_id;
+
+    try {
+        const response = await Meal.getAllMealsForUser(dexcomId);
+
+        console.log("All meals response", response);
         return res.json(response);
     } catch (error) {
         next(error);

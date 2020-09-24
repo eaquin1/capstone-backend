@@ -36,10 +36,25 @@ router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
     //const token = createToken(req.sessionID);
     // console.log("jwt", token);
     // res.send(token);
-    // res.cookie("id", req.sessionID, {
-    //     expires: new Date(Date.now() + 7200),
-    // })
-    res.redirect("http://localhost:3000/home");
+    res.cookie("id", req.sessionID, {
+        expires: new Date(Date.now() + 7200 * 1000),
+    }).redirect("http://localhost:3000/home");
+});
+
+//route to check cookie against req.sessionID
+router.get("/user", (req, res, next) => {
+    try {
+        return res.json(req.sessionID);
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.get("/logout", (req, res) => {
+    req.logout();
+    req.session.destroy((err) => {
+        res.send("Logged Out");
+    });
 });
 
 module.exports = router;
