@@ -22,7 +22,7 @@ router.get(
 router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
     res.cookie("id", req.sessionID, {
         expires: new Date(Date.now() + 7200 * 1000),
-    }).redirect("http://localhost:3000/home");
+    }).redirect("https://t1d-sugar-tracker.herokuapp.com");
 });
 
 //route to check cookie against req.sessionID

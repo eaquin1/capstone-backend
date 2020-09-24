@@ -13,7 +13,12 @@ const ExpressError = require("./expressError");
 
 //allow front end calls
 
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(
+    cors({
+        credentials: true,
+        origin: "https://t1d-sugar-tracker.herokuapp.com",
+    })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -35,7 +40,7 @@ app.use(
         secret: process.env.SESSION_SECRET,
         resave: false,
         maxAge: 2 * 60 * 60 * 1000,
-        cookie: { secure: false }, // Set to secure:false for demo purposes
+        cookie: { secure: true },
         saveUninitialized: false,
     })
 );
