@@ -22,7 +22,8 @@ passport.use(
             authorizationURL: `https://sandbox-api.dexcom.com/v2/oauth2/login`,
             tokenURL: "https://sandbox-api.dexcom.com/v2/oauth2/token",
             clientSecret: clientSecret,
-            callbackURL: "http://localhost:5000/auth/dexcom/redirect",
+            callbackURL:
+                "https://dexcom-tracker.herokuapp.com/auth/dexcom/redirect",
         },
         (accessToken, refreshToken, profile, done) => {
             let tokenToId = jwt.decode(accessToken);
