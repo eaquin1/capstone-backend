@@ -28,7 +28,7 @@ app.use(
         },
         store: new redisStore({
             host: "localhost",
-            port: 6379,
+            port: 6480,
             client: redisClient,
         }),
         name: "dexcom_user",
