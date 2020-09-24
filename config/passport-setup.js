@@ -4,7 +4,6 @@ const OAuth2Strategy = require("passport-oauth2").Strategy;
 const clientID = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 const User = require("../models/user");
-const redisClient = require("../config/redis-config");
 const jwt = require("jsonwebtoken");
 
 passport.serializeUser(function (user, done) {
@@ -12,23 +11,7 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (id, done) {
-    // console.log("deser id", id);
-    // const user = redisClient.get(`sess:${id}`, function (err, vals) {
-    //     if (err) {
-    //         throw err;
-    //     } else {
-    //         console.log("loginInfo", JSON.parse(vals));
-    //     }
-    // });
     done(null, id);
-
-    // try {
-    //     User.findOne(id).then((user) => {
-    //         done(null, user);
-    //     });
-    // } catch (e) {
-    //     throw Error(e);
-    // }
 });
 
 passport.use(

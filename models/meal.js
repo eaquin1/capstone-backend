@@ -8,6 +8,7 @@ class Meal {
      *                          meal2:  [food1, food2, ...],
      *                                ...}
      * */
+
     static async getAllMealsForUser(dexcom_id) {
         const mealsResponse = await db.query(
             `SELECT id, dexcom_id, foods, carb_count, date
@@ -32,8 +33,6 @@ class Meal {
      *          ...}    */
 
     static async getMealsTimeRange(dexcom_id, startTime, endTime) {
-        console.log("DEXID", dexcom_id);
-        console.log("mealtime dates", startTime, endTime);
         const mealTimes = await db.query(
             `SELECT id, dexcom_id, foods, carb_count, date
             FROM meals
@@ -42,6 +41,7 @@ class Meal {
         );
 
         const meals = mealTimes.rows;
+
         if (!meals) {
             throw new ExpressError(`No such meal: ${dexcom_id}`, 404);
         }

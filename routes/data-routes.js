@@ -7,14 +7,12 @@ const BASE_URL_DEX = "https://sandbox-api.dexcom.com/v2/users/self";
 const BASE_URL_EDAMAM = "https://api.edamam.com/api/food-database/v2";
 const ED_APP_ID = process.env.ED_APP_ID;
 const ED_APP_KEY = process.env.ED_APP_KEY;
-const passport = require("passport");
 const authRequired = require("../middleware/auth");
 
 //GET estimated glucose values from Dexcom API
 router.get("/egvs", authRequired, async (req, res, next) => {
     const { startDate, endDate } = req.query;
-    console.log("Authenticated?", req.isAuthenticated());
-    console.log("dates", startDate, endDate);
+
     try {
         let response = await axios.get(
             `${BASE_URL_DEX}/egvs?startDate=${startDate}&endDate=${endDate}`,
@@ -155,6 +153,7 @@ router.delete("/deletemeal/:id", authRequired, async (req, res, next) => {
         next(error);
     }
 });
+
 //get all meals for a user
 router.get("/mealsbyuser", authRequired, async (req, res, next) => {
     const dexcomId = req.session.passport.user.dexcom_id;

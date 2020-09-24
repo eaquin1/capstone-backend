@@ -5,7 +5,6 @@
 function authRequired(req, res, next) {
     try {
         if (req.isAuthenticated()) {
-            console.log("logged in user");
             return next();
         }
 
