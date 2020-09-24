@@ -124,6 +124,7 @@ router.post("/addmeal", authRequired, async (req, res, next) => {
         next(error);
     }
 });
+
 //get meals within a time range
 router.get("/mealsbytime", authRequired, async (req, res, next) => {
     const { startDate, endDate } = req.query;
@@ -143,6 +144,17 @@ router.get("/mealsbytime", authRequired, async (req, res, next) => {
     }
 });
 
+//Delete a meal for a user
+router.delete("/deletemeal/:id", authRequired, async (req, res, next) => {
+    const { id } = req.params;
+
+    try {
+        await Meal.deleteMeal(id);
+        return res.json({ message: "Meal deleted" });
+    } catch (error) {
+        next(error);
+    }
+});
 //get all meals for a user
 router.get("/mealsbyuser", authRequired, async (req, res, next) => {
     const dexcomId = req.session.passport.user.dexcom_id;

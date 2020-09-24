@@ -102,7 +102,7 @@ class Meal {
             `DELETE FROM meals WHERE id=$1 RETURNING id`,
             [id]
         );
-        if (results.rows.length === 0) {
+        if (result.rows.length === 0) {
             throw new ExpressError(`${id} does not exist`, 404);
         }
     }
