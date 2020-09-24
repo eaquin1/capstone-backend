@@ -5,7 +5,7 @@ const clientID = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
-
+const BASE_URL = "http://localhost:5000"; //process.env.BASE_URL
 passport.serializeUser(function (user, done) {
     done(null, user);
 });
@@ -22,8 +22,7 @@ passport.use(
             authorizationURL: `https://sandbox-api.dexcom.com/v2/oauth2/login`,
             tokenURL: "https://sandbox-api.dexcom.com/v2/oauth2/token",
             clientSecret: clientSecret,
-            callbackURL:
-                "https://dexcom-tracker.herokuapp.com/auth/dexcom/redirect",
+            callbackURL: `${BASE_URL}/auth/dexcom/redirect`,
         },
         (accessToken, refreshToken, profile, done) => {
             let tokenToId = jwt.decode(accessToken);

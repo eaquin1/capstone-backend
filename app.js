@@ -10,13 +10,13 @@ const redisClient = require("./config/redis-config");
 const redisStore = require("connect-redis")(session);
 const { v4: uuid } = require("uuid");
 const ExpressError = require("./expressError");
-
+const BASE_URL = "http://localhost:3000"; //process.env.FRONT_END?
 //allow front end calls
 
 app.use(
     cors({
         credentials: true,
-        origin: "https://t1d-sugar-tracker.herokuapp.com",
+        origin: BASE_URL,
     })
 );
 app.use(express.json());
@@ -33,14 +33,14 @@ app.use(
         },
         store: new redisStore({
             host: "localhost",
-            port: 6480,
+            port: 6379, //6480,
             client: redisClient,
         }),
         name: "dexcom_user",
         secret: process.env.SESSION_SECRET,
         resave: false,
         maxAge: 2 * 60 * 60 * 1000,
-        cookie: { secure: true },
+        cookie: { secure: false },
         saveUninitialized: false,
     })
 );

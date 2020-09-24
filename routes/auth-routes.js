@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-
+const frontEnd = "http://localhost:3000"; //https://t1d-sugar-tracker.herokuapp.com
 // auth with Dexcom
 router.get(
     "/dexcom",
@@ -22,7 +22,7 @@ router.get(
 router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
     res.cookie("id", req.sessionID, {
         expires: new Date(Date.now() + 7200 * 1000),
-    }).redirect("https://t1d-sugar-tracker.herokuapp.com");
+    }).redirect(`${frontEnd}/home`);
 });
 
 //route to check cookie against req.sessionID
