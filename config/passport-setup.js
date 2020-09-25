@@ -5,7 +5,7 @@ const clientID = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
-const BASE_URL = process.env.BASE_URL; //"http://localhost:5000"; //process.env.BASE_URL
+const BASE_URL = process.env.BASE_URL; //"http://localhost:5000";
 passport.serializeUser(function (user, done) {
     done(null, user);
 });

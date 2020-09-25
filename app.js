@@ -10,7 +10,7 @@ const redisClient = require("./config/redis-config");
 const redisStore = require("connect-redis")(session);
 const { v4: uuid } = require("uuid");
 const ExpressError = require("./expressError");
-const BASE_URL = process.env.FRONT_END; //"http://localhost:3000"; //process.env.FRONT_END?
+const BASE_URL = process.env.FRONT_END; //"http://localhost:3000"; //?
 //allow front end calls
 
 app.use(
@@ -32,15 +32,16 @@ app.use(
             return uuid(); //use UUIDs for session IDs
         },
         store: new redisStore({
-            host: "localhost",
-            port: 6480, //6379, //
+            //host: "localhost",
+            port: 6480, // 6379,
             client: redisClient,
         }),
         name: "dexcom_user",
         secret: process.env.SESSION_SECRET,
+        proxy: true,
         resave: false,
         maxAge: 2 * 60 * 60 * 1000,
-        cookie: { secure: false },
+        cookie: { secure: true },
         saveUninitialized: false,
     })
 );
