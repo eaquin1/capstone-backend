@@ -33,6 +33,7 @@ app.use(
         },
         store: new redisStore({
             //host: "localhost",
+            url: process.env.REDIS_ENV,
             port: 6480, // 6379,
             client: redisClient,
         }),
