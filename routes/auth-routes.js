@@ -1,7 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-const frontEnd = "https://t1d-sugar-tracker.herokuapp.com"; //"http://localhost:3000"; //
+const frontEnd =
+    process.env.NODE_ENV === "production"
+        ? "https://t1d-sugar-tracker.herokuapp.com"
+        : "http://localhost:3000";
+const authRequired = require("../middleware/auth");
 // auth with Dexcom
 router.get(
     "/dexcom",
@@ -28,7 +32,11 @@ router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
 //route to check cookie against req.sessionID
 router.get("/user", (req, res, next) => {
     try {
-        return res.json(req.sessionID);
+        if (req.isUnauthenticated()) {
+            return res.json("Not logged in");
+        } else if (req.isAuthenticated()) {
+            return res.json(req.sessionID);
+        }
     } catch (error) {
         next(error);
     }
