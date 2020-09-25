@@ -3,9 +3,9 @@ const router = express.Router();
 const passport = require("passport");
 const frontEnd =
     process.env.NODE_ENV === "production"
-        ? "https://t1d-sugar-tracker.herokuapp.com"
+        ? process.env.FRONT_END
         : "http://localhost:3000";
-const authRequired = require("../middleware/auth");
+
 // auth with Dexcom
 router.get(
     "/dexcom",

@@ -10,7 +10,7 @@ const redisClient = require("./config/redis-config");
 const redisStore = require("connect-redis")(session);
 const { v4: uuid } = require("uuid");
 const ExpressError = require("./expressError");
-const BASE_URL =
+const frontEnd =
     process.env.NODE_ENV === "production"
         ? process.env.FRONT_END
         : "http://localhost:3000";
@@ -20,7 +20,7 @@ const BASE_URL =
 app.use(
     cors({
         credentials: true,
-        origin: BASE_URL,
+        origin: frontEnd,
     })
 );
 app.use(express.json());
