@@ -10,7 +10,7 @@ const redisClient = require("./config/redis-config");
 const redisStore = require("connect-redis")(session);
 const { v4: uuid } = require("uuid");
 const ExpressError = require("./expressError");
-const BASE_URL = "http://localhost:3000"; //process.env.FRONT_END?
+const BASE_URL = process.env.FRONT_END; //"http://localhost:3000"; //process.env.FRONT_END?
 //allow front end calls
 
 app.use(
@@ -33,7 +33,7 @@ app.use(
         },
         store: new redisStore({
             host: "localhost",
-            port: 6379, //6480,
+            port: 6480, //6379, //
             client: redisClient,
         }),
         name: "dexcom_user",

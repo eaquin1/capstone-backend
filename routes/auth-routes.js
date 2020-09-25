@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-const frontEnd = "http://localhost:3000"; //https://t1d-sugar-tracker.herokuapp.com
+const frontEnd = "https://t1d-sugar-tracker.herokuapp.com"; //"http://localhost:3000"; //https://t1d-sugar-tracker.herokuapp.com
 // auth with Dexcom
 router.get(
     "/dexcom",
