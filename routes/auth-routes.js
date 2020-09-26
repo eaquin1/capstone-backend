@@ -35,13 +35,14 @@ router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
 
 //route to check cookie against req.sessionID
 router.get("/user", (req, res, next) => {
+    console.log(req);
     try {
-        // if (req.isUnauthenticated()) {
-        //     return res.json(null);
-        // } else if (req.isAuthenticated()) {
-        console.log("sessionId in auth/user", req.sessionID);
-        return res.json(req.sessionID);
-        //}
+        if (req.isUnauthenticated()) {
+            return res.json(null);
+        } else if (req.isAuthenticated()) {
+            console.log("sessionId in auth/user", req.sessionID);
+            return res.json(req.sessionID);
+        }
     } catch (error) {
         next(error);
     }
