@@ -22,7 +22,7 @@ app.use(
     cors({
         credentials: true,
         origin: frontEnd,
-        allowedHeaders: ["Content-Type", "Authorization"],
+        //allowedHeaders: ["Content-Type", "Authorization"],
         methods: ["GET", "POST", "PUT", "HEAD", "PATCH", "DELETE"],
     })
 );
@@ -39,18 +39,18 @@ app.use(
         genid: (req) => {
             return uuid(); //use UUIDs for session IDs
         },
-        store: new redisStore({
-            //host: "localhost",
-            //url: process.env.REDIS_URL,
-            // port: 6480, // 6379,
-            client: redisClient,
-        }),
+        // store: new redisStore({
+        //     //host: "localhost",
+        //     //url: process.env.REDIS_URL,
+        //     // port: 6480, // 6379,
+        //     client: redisClient,
+        // }),
         name: "dexcom_user",
         secret: process.env.SESSION_SECRET,
         //proxy: true,
         resave: false,
         maxAge: 2 * 60 * 60 * 1000,
-        cookie: { secure: true, sameSite: "none" },
+        cookie: { secure: false }, //sameSite: "none" },
         saveUninitialized: false,
     })
 );
