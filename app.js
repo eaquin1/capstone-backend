@@ -27,7 +27,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(shouldSendSameSiteNone);
-
+app.set("trust proxy", 1);
 redisClient.on("error", (err) => {
     console.log("Redis error: ", err);
 });
