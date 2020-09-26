@@ -10,7 +10,7 @@ const redisClient = require("./config/redis-config");
 const redisStore = require("connect-redis")(session);
 const { v4: uuid } = require("uuid");
 const ExpressError = require("./expressError");
-const { shouldSendSameSiteNone } = require("should-send-same-site-none");
+//const { shouldSendSameSiteNone } = require("should-send-same-site-none");
 const frontEnd =
     process.env.NODE_ENV === "production"
         ? process.env.FRONT_END
@@ -26,7 +26,7 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(shouldSendSameSiteNone);
+//app.use(shouldSendSameSiteNone);
 //app.set("trust proxy", 1);
 redisClient.on("error", (err) => {
     console.log("Redis error: ", err);
@@ -48,7 +48,7 @@ app.use(
         //proxy: true,
         resave: false,
         maxAge: 2 * 60 * 60 * 1000,
-        cookie: { secure: true, sameSite: "None", httpOnly: true },
+        cookie: { secure: true, sameSite: "none", httpOnly: true },
         saveUninitialized: false,
     })
 );
