@@ -38,6 +38,7 @@ router.get("/user", (req, res, next) => {
         if (req.isUnauthenticated()) {
             return res.json(null);
         } else if (req.isAuthenticated()) {
+            console.log("sessionId in auth/user", req.sessionID);
             return res.json(req.sessionID);
         }
     } catch (error) {

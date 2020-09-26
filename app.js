@@ -22,6 +22,8 @@ app.use(
     cors({
         credentials: true,
         origin: frontEnd,
+        allowedHeaders: ["Content-Type", "Authorization"],
+        methods: ["GET", "POST", "PUT", "HEAD", "PATCH", "DELETE"],
     })
 );
 app.use(express.json());
@@ -48,7 +50,7 @@ app.use(
         //proxy: true,
         resave: false,
         maxAge: 2 * 60 * 60 * 1000,
-        cookie: { secure: true, sameSite: "none", httpOnly: true },
+        cookie: { secure: true, sameSite: "none" },
         saveUninitialized: false,
     })
 );
