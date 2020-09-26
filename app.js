@@ -50,7 +50,7 @@ app.use(
         //proxy: true,
         resave: false,
         maxAge: 2 * 60 * 60 * 1000,
-        cookie: { secure: false }, //sameSite: "none" },
+        cookie: { secure: true, sameSite: "none" },
         saveUninitialized: false,
     })
 );
