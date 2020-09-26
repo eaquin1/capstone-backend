@@ -20,7 +20,7 @@ class Meal {
         const meals = mealsResponse.rows;
 
         if (!meals) {
-            throw new ExpressError(`No such meal: ${descom_id}`, 404);
+            throw new ExpressError(`No such meal: ${dexcom_id}`, 404);
         }
 
         return meals;

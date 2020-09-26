@@ -10,6 +10,7 @@ const redisClient = require("./config/redis-config");
 const redisStore = require("connect-redis")(session);
 const { v4: uuid } = require("uuid");
 const ExpressError = require("./expressError");
+const { shouldSendSameSiteNone } = require("should-send-same-site-none");
 const frontEnd =
     process.env.NODE_ENV === "production"
         ? process.env.FRONT_END
@@ -25,6 +26,7 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(shouldSendSameSiteNone);
 
 redisClient.on("error", (err) => {
     console.log("Redis error: ", err);
@@ -36,17 +38,17 @@ app.use(
             return uuid(); //use UUIDs for session IDs
         },
         store: new redisStore({
-            //host: "localhost",
+            host: "localhost",
             //url: process.env.REDIS_URL,
             // port: 6480, // 6379,
             client: redisClient,
         }),
         name: "dexcom_user",
         secret: process.env.SESSION_SECRET,
-        //proxy: true,
+        proxy: true,
         resave: false,
         maxAge: 2 * 60 * 60 * 1000,
-        cookie: { secure: true, sameSite: "none", httpOnly: true },
+        cookie: { secure: true, sameSite: "none" },
         saveUninitialized: false,
     })
 );

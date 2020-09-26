@@ -20,6 +20,11 @@
     "passport-oauth2": "^1.5.0",
     "pg": "^8.3.0",
     "redis": "^3.0.2",
+    "should-send-same-site-none": "^2.0.5",
     "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "passport-mock-strategy": "^2.0.0",
+    "supertest": "^5.0.0"
   }
 }
