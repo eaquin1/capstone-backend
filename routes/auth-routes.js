@@ -24,18 +24,19 @@ router.get(
 
 // callback route for dexcom to redirect to
 router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
-    res.cookie("id", req.sessionID, {
-        expires: new Date(Date.now() + 7200 * 1000),
-        sameSite: "none",
-        secure: true,
-    }).redirect(`${frontEnd}/home`);
+    // res.cookie("id", req.sessionID, {
+    //     expires: new Date(Date.now() + 7200 * 1000),
+    //     sameSite: "none",
+    //     secure: true,
+    // }).
+    res.redirect(`${frontEnd}/home`);
 });
 
 //route to check cookie against req.sessionID
 router.get("/user", (req, res, next) => {
     try {
         if (req.isUnauthenticated()) {
-            return res.json("Not logged in");
+            return res.json(null);
         } else if (req.isAuthenticated()) {
             return res.json(req.sessionID);
         }
