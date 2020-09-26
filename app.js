@@ -38,7 +38,7 @@ app.use(
             return uuid(); //use UUIDs for session IDs
         },
         store: new redisStore({
-            host: "localhost",
+            // host: "localhost",
             //url: process.env.REDIS_URL,
             // port: 6480, // 6379,
             client: redisClient,
