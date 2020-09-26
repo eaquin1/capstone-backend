@@ -10,7 +10,7 @@ const redisClient = require("./config/redis-config");
 const redisStore = require("connect-redis")(session);
 const { v4: uuid } = require("uuid");
 const ExpressError = require("./expressError");
-//const { shouldSendSameSiteNone } = require("should-send-same-site-none");
+const { shouldSendSameSiteNone } = require("should-send-same-site-none");
 const frontEnd =
     process.env.NODE_ENV === "production"
         ? process.env.FRONT_END
@@ -18,6 +18,7 @@ const frontEnd =
 
 //allow front end calls
 console.log("Front end", frontEnd);
+app.use(shouldSendSameSiteNone);
 app.use(
     cors({
         credentials: true,
@@ -68,7 +69,7 @@ app.use(
         //proxy: true,
         resave: false,
         maxAge: 2 * 60 * 60 * 1000,
-        cookie: { secure: true, SameSite: "None" },
+        cookie: { secure: true, sameSite: "none" },
         saveUninitialized: false,
     })
 );
