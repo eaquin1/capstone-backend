@@ -17,7 +17,7 @@ const frontEnd =
         : "http://localhost:3000";
 
 //allow front end calls
-
+console.log("Front end", frontEnd);
 app.use(
     cors({
         credentials: true,
