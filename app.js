@@ -26,7 +26,11 @@ app.use(
         methods: ["GET", "POST", "PUT", "HEAD", "PATCH", "DELETE"],
     })
 );
-let ALLOWED_ORIGINS = [frontEnd, "https://dexcom-tracker.herokuapp.com"];
+let ALLOWED_ORIGINS = [
+    frontEnd,
+    "https://developer-portal-dot-g5-dexcom-prod-us-5.appspot.com/",
+    "https://dexcom-tracker.herokuapp.com",
+];
 app.use((req, res, next) => {
     let origin = req.headers.origin;
     let theOrigin =
