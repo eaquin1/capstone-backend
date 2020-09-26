@@ -21,22 +21,12 @@ console.log("Front end", frontEnd);
 app.use(
     cors({
         credentials: true,
-        origin: [frontEnd, "https://dexcom-tracker.herokuapp.com"],
+        origin: "https://dexcom-tracker.herokuapp.com",
         //allowedHeaders: ["Content-Type", "Authorization"],
         methods: ["GET", "POST", "PUT", "HEAD", "PATCH", "DELETE"],
     })
 );
-app.all("*", function (req, res, next) {
-    let origin = req.headers.origin;
-    if (cors.origin.indexOf(origin) >= 0) {
-        res.header("Access-Control-Allow-Origin", origin);
-    }
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    next();
-});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //app.use(shouldSendSameSiteNone);
