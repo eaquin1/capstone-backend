@@ -26,7 +26,8 @@ router.get(
 router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
     res.cookie("id", req.sessionID, {
         expires: new Date(Date.now() + 7200 * 1000),
-        //sameSite: "none",
+        sameSite: "none",
+        secure: true,
     }).redirect(`${frontEnd}/home`);
 });
 
