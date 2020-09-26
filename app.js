@@ -21,12 +21,25 @@ console.log("Front end", frontEnd);
 app.use(
     cors({
         credentials: true,
-        origin: "https://dexcom-tracker.herokuapp.com",
+        //origin: frontEnd,
         //allowedHeaders: ["Content-Type", "Authorization"],
         methods: ["GET", "POST", "PUT", "HEAD", "PATCH", "DELETE"],
     })
 );
+let ALLOWED_ORIGINS = [frontEnd, "https://dexcom-tracker.herokuapp.com"];
+app.use((req, res, next) => {
+    let origin = req.headers.origin;
+    let theOrigin =
+        ALLOWED_ORIGINS.indexOf(origin) >= 0 ? origin : ALLOWED_ORIGINS[0];
+    console.log("origin", theOrigin);
+    res.header("Access-Control-Allow-Origin", theOrigin);
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+    );
 
+    next();
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //app.use(shouldSendSameSiteNone);
@@ -51,7 +64,7 @@ app.use(
         //proxy: true,
         resave: false,
         maxAge: 2 * 60 * 60 * 1000,
-        cookie: { secure: true, sameSite: "none" },
+        cookie: { secure: false }, //, sameSite: "none" },
         saveUninitialized: false,
     })
 );
