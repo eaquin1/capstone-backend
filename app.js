@@ -27,7 +27,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(shouldSendSameSiteNone);
-app.set("trust proxy", 1);
+//app.set("trust proxy", 1);
 redisClient.on("error", (err) => {
     console.log("Redis error: ", err);
 });
@@ -48,7 +48,7 @@ app.use(
         //proxy: true,
         resave: false,
         maxAge: 2 * 60 * 60 * 1000,
-        cookie: { secure: true, sameSite: "none", httpOnly: true },
+        cookie: { secure: true, sameSite: "None", httpOnly: true },
         saveUninitialized: false,
     })
 );
