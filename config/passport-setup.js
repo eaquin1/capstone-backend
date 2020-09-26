@@ -30,7 +30,7 @@ passport.use(
         (accessToken, refreshToken, profile, done) => {
             let tokenToId = jwt.decode(accessToken);
             let user_id = tokenToId.sub;
-
+            console.log("accessToken", accessToken);
             let user = {
                 dexcom_id: user_id,
                 access_token: accessToken,
