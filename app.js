@@ -56,34 +56,34 @@ redisClient.on("error", (err) => {
     console.log("Redis error: ", err);
 });
 app.set("trust proxy", 1);
-// app.use(
-//     session({
-//         genid: (req) => {
-//             return uuid(); //use UUIDs for session IDs
-//         },
-//         store: new redisStore({
-//             //host: "localhost",
-//             //url: process.env.REDIS_URL,
-//             // port: 6480, // 6379,
-//             client: redisClient,
-//         }),
-//         name: "dexcom_user",
-//         secret: process.env.SESSION_SECRET,
-//         resave: false,
-//         maxAge: 2 * 60 * 60 * 1000,
-//         cookie: { secure: true, sameSite: "none" },
-//         saveUninitialized: false,
-//     })
-//);
 app.use(
-    cookieSession({
+    session({
+        genid: (req) => {
+            return uuid(); //use UUIDs for session IDs
+        },
+        store: new redisStore({
+            //host: "localhost",
+            //url: process.env.REDIS_URL,
+            // port: 6480, // 6379,
+            client: redisClient,
+        }),
         name: "dexcom_user",
         secret: process.env.SESSION_SECRET,
-        sameSite: "none",
-        secure: true,
-        httpOnly: true,
+        resave: false,
+        maxAge: 2 * 60 * 60 * 1000,
+        cookie: { secure: true, sameSite: "none" },
+        saveUninitialized: false,
     })
 );
+// app.use(
+//     cookieSession({
+//         name: "dexcom_user",
+//         secret: process.env.SESSION_SECRET,
+//         sameSite: "none",
+//         secure: true,
+//         httpOnly: true,
+//     })
+// );
 app.use(passport.initialize());
 app.use(passport.session());
 
