@@ -34,7 +34,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 CREATE TABLE public.users (
-    dexcom_id TEXT  NOT NULL PRIMARY KEY,
+    dexcom_id TEXT NOT NULL PRIMARY KEY,
     user_refresh_token TEXT NOT NULL
 );
 

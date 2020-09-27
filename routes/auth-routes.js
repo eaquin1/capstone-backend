@@ -31,19 +31,19 @@ router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
     //     secure: true,
     // }).
     //console.log("user", req.session.passport.user);
-    const token = createToken(req.session.passport.user);
-    console.log(req.session);
+
+    console.log("req.session inside redirect", req.session);
     req.session.save();
     res.redirect(`${frontEnd}/home`);
 });
 
 //route to check cookie against req.sessionID
 router.get("/user", (req, res, next) => {
-    console.log(req.isAuthenticated());
+    console.log("req.session.accessToken", req.session.passport);
     try {
-        if (req.isUnauthenticated()) {
+        if (!req.session.passport) {
             return res.json(null);
-        } else if (req.isAuthenticated()) {
+        } else if (req.session.passport.user) {
             const token = createToken(req.session.passport.user);
             return res.json({ token });
         }

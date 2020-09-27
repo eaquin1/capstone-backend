@@ -41,6 +41,7 @@ passport.use(
             User.findOne(user).then((existingUser) => {
                 if (existingUser) {
                     console.log("current user found", existingUser);
+
                     done(null, user);
                 } else {
                     User.register(user).then((newUser) => {
