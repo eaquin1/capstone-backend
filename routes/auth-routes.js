@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+const createToken = require("../helpers/createToken");
 const frontEnd =
     process.env.NODE_ENV === "production"
         ? process.env.FRONT_END
@@ -18,7 +19,7 @@ router.get(
             "events",
             "statistics",
         ],
-        session: true,
+        //session: true,
     })
 );
 
@@ -29,18 +30,20 @@ router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
     //     sameSite: "none",
     //     secure: true,
     // }).
-    console.log("Working");
-    res.redirect(`${frontEnd}/home`);
+    //console.log("user", req.session.passport.user);
+    // const token = createToken(req.session.passport.user);
+    return res.redirect(`${frontEnd}/home`);
 });
 
 //route to check cookie against req.sessionID
 router.get("/user", (req, res, next) => {
-    //console.log(req.session.passport.user);
+    console.log(req.isAuthenticated());
     try {
         if (req.isUnauthenticated()) {
             return res.json(null);
         } else if (req.isAuthenticated()) {
-            return res.json(req.session.passport.user);
+            const token = createToken(req.session.passport.user);
+            return res.json({ token });
         }
     } catch (error) {
         next(error);

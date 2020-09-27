@@ -1,4 +1,5 @@
 const express = require("express");
+const { shouldSendSameSiteNone } = require("should-send-same-site-none");
 const app = express();
 const cors = require("cors");
 const passport = require("passport");
@@ -10,7 +11,7 @@ const redisClient = require("./config/redis-config");
 const redisStore = require("connect-redis")(session);
 const { v4: uuid } = require("uuid");
 const ExpressError = require("./expressError");
-const { shouldSendSameSiteNone } = require("should-send-same-site-none");
+
 const cookieSession = require("cookie-session");
 const frontEnd =
     process.env.NODE_ENV === "production"
@@ -18,7 +19,7 @@ const frontEnd =
         : "http://localhost:3000";
 
 //allow front end calls
-console.log("Front end", frontEnd);
+
 app.use(shouldSendSameSiteNone);
 app.use(
     cors({
@@ -51,9 +52,9 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// redisClient.on("error", (err) => {
-//     console.log("Redis error: ", err);
-// });
+redisClient.on("error", (err) => {
+    console.log("Redis error: ", err);
+});
 
 // app.use(
 //     session({
@@ -73,7 +74,7 @@ app.use(express.urlencoded({ extended: true }));
 //         cookie: { secure: true, sameSite: "none" },
 //         saveUninitialized: false,
 //     })
-// );
+//);
 app.use(
     cookieSession({
         name: "dexcom_user",

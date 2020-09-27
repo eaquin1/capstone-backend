@@ -9,6 +9,7 @@ const BASE_URL =
     process.env.NODE_ENV === "production"
         ? process.env.BASE_URL
         : "http://localhost:5000";
+
 passport.serializeUser(function (user, done) {
     done(null, user);
 });
@@ -30,7 +31,7 @@ passport.use(
         (accessToken, refreshToken, profile, done) => {
             let tokenToId = jwt.decode(accessToken);
             let user_id = tokenToId.sub;
-            console.log("accessToken", accessToken);
+
             let user = {
                 dexcom_id: user_id,
                 access_token: accessToken,
