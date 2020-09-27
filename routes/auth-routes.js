@@ -52,9 +52,9 @@ router.get("/user", (req, res, next) => {
 
 router.get("/logout", (req, res) => {
     req.logOut();
-    req.session.destroy((err) => {
-        res.send("Logged Out");
-    });
+    // req.session.destroy((err) => {
+    //     res.send("Logged Out");
+    // });
 });
 
 module.exports = router;
