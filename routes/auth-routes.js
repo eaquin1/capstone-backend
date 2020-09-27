@@ -1,7 +1,9 @@
+const e = require("express");
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const createToken = require("../helpers/createToken");
+
 const frontEnd =
     process.env.NODE_ENV === "production"
         ? process.env.FRONT_END
@@ -32,21 +34,28 @@ router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
     // }).
     //console.log("user", req.session.passport.user);
 
-    console.log("req.session inside redirect", req.session);
-    req.session.save();
-    res.redirect(`${frontEnd}/home`);
+    console.log("req.session inside redirect", req.session.passport);
+    req.session.save(() => {
+        return res.redirect(`${frontEnd}/home`);
+    });
 });
 
 //route to check cookie against req.sessionID
 router.get("/user", (req, res, next) => {
-    console.log("req.session.accessToken", req.session.passport);
+    console.log("req.session.passport", req.session.passport);
     try {
-        if (!req.session.passport) {
-            return res.json(null);
-        } else if (req.session.passport.user) {
+        if (req.isAuthenticated()) {
             const token = createToken(req.session.passport.user);
             return res.json({ token });
+        } else {
+            return res.json(null);
         }
+        // if (!req.session.passport) {
+        //     return res.json(null);
+        // } else if (req.session.passport.user) {
+        //     const token = createToken(req.session.passport.user);
+        //     return res.json({ token });
+        // }
     } catch (error) {
         next(error);
     }

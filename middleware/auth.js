@@ -1,13 +1,13 @@
-const User = require("../models/user");
 /** Middleware to use when checking if the user has a valid Passport session
  * If not, raise unauthorized
  */
 
-async function authRequired(req, res, next) {
+function authRequired(req, res, next) {
     try {
-        if (req.session.passport.user) {
+        if (req.isAuthenticated()) {
             return next();
         }
+
         throw new Error();
     } catch (err) {
         let unauthorized = new Error("You must authenticate first.");
