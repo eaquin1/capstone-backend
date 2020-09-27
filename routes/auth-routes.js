@@ -35,13 +35,12 @@ router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
 
 //route to check cookie against req.sessionID
 router.get("/user", (req, res, next) => {
-    console.log(req);
+    //console.log(req.session.passport.user);
     try {
         if (req.isUnauthenticated()) {
             return res.json(null);
         } else if (req.isAuthenticated()) {
-            console.log("sessionId in auth/user", req.sessionID);
-            return res.json(req.sessionID);
+            return res.json(req.session.passport.user);
         }
     } catch (error) {
         next(error);
@@ -50,9 +49,9 @@ router.get("/user", (req, res, next) => {
 
 router.get("/logout", (req, res) => {
     req.logout();
-    req.session.destroy((err) => {
-        res.send("Logged Out");
-    });
+    // req.session.destroy((err) => {
+    //     res.send("Logged Out");
+    // });
 });
 
 module.exports = router;

@@ -11,6 +11,7 @@ const redisStore = require("connect-redis")(session);
 const { v4: uuid } = require("uuid");
 const ExpressError = require("./expressError");
 const { shouldSendSameSiteNone } = require("should-send-same-site-none");
+const cookieSession = require("cookie-session");
 const frontEnd =
     process.env.NODE_ENV === "production"
         ? process.env.FRONT_END
@@ -22,58 +23,63 @@ app.use(shouldSendSameSiteNone);
 app.use(
     cors({
         credentials: true,
-        //origin: frontEnd,
+        origin: frontEnd,
         //allowedHeaders: ["Content-Type", "Authorization"],
         methods: ["GET", "POST", "PUT", "HEAD", "PATCH", "DELETE"],
     })
 );
-let ALLOWED_ORIGINS = [
-    frontEnd,
-    "https://developer-portal-dot-g5-dexcom-prod-us-5.appspot.com/",
-    "https://dexcom-tracker.herokuapp.com",
-];
-app.use((req, res, next) => {
-    let origin = req.headers.origin;
-    let theOrigin =
-        ALLOWED_ORIGINS.indexOf(origin) >= 0 ? origin : ALLOWED_ORIGINS[0];
-    console.log("origin", theOrigin);
-    res.header("Access-Control-Allow-Origin", theOrigin);
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept"
-    );
 
-    next();
-});
+// let ALLOWED_ORIGINS = [
+//     frontEnd,
+//     "https://developer-portal-dot-g5-dexcom-prod-us-5.appspot.com/",
+//     "https://dexcom-tracker.herokuapp.com",
+// ];
+
+// app.use((req, res, next) => {
+//     let origin = req.headers.origin;
+//     let theOrigin =
+//         ALLOWED_ORIGINS.indexOf(origin) >= 0 ? origin : ALLOWED_ORIGINS[0];
+//     console.log("origin", theOrigin);
+//     res.header("Access-Control-Allow-Origin", theOrigin);
+//     res.header(
+//         "Access-Control-Allow-Headers",
+//         "Origin, X-Requested-With, Content-Type, Accept"
+//     );
+
+//     next();
+// });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-//app.use(shouldSendSameSiteNone);
-//app.set("trust proxy", 1);
-redisClient.on("error", (err) => {
-    console.log("Redis error: ", err);
-});
 
+// redisClient.on("error", (err) => {
+//     console.log("Redis error: ", err);
+// });
+
+// app.use(
+//     session({
+//         genid: (req) => {
+//             return uuid(); //use UUIDs for session IDs
+//         },
+//         store: new redisStore({
+//             //host: "localhost",
+//             //url: process.env.REDIS_URL,
+//             // port: 6480, // 6379,
+//             client: redisClient,
+//         }),
+//         name: "dexcom_user",
+//         secret: process.env.SESSION_SECRET,
+//         resave: false,
+//         maxAge: 2 * 60 * 60 * 1000,
+//         cookie: { secure: true, sameSite: "none" },
+//         saveUninitialized: false,
+//     })
+// );
 app.use(
-    session({
-        genid: (req) => {
-            return uuid(); //use UUIDs for session IDs
-        },
-        store: new redisStore({
-            //host: "localhost",
-            //url: process.env.REDIS_URL,
-            // port: 6480, // 6379,
-            client: redisClient,
-        }),
+    cookieSession({
         name: "dexcom_user",
         secret: process.env.SESSION_SECRET,
-        //proxy: true,
-        resave: false,
-        maxAge: 2 * 60 * 60 * 1000,
-        cookie: { secure: true, sameSite: "none" },
-        saveUninitialized: false,
     })
 );
-
 app.use(passport.initialize());
 app.use(passport.session());
 
