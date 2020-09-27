@@ -19,7 +19,7 @@ router.get(
             "events",
             "statistics",
         ],
-        //session: true,
+        session: true,
     })
 );
 

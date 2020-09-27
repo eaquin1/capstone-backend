@@ -55,7 +55,7 @@ app.use(express.urlencoded({ extended: true }));
 redisClient.on("error", (err) => {
     console.log("Redis error: ", err);
 });
-
+app.set("trust proxy", 1);
 // app.use(
 //     session({
 //         genid: (req) => {
