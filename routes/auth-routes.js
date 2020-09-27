@@ -31,9 +31,9 @@ router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
     //     secure: true,
     // }).
     //console.log("user", req.session.passport.user);
-    // const token = createToken(req.session.passport.user);
+    const token = createToken(req.session.passport.user);
     req.session.save(() => {
-        res.redirect(`${frontEnd}/home`);
+        res.json({ token }).redirect(`${frontEnd}/home`);
     });
 });
 
