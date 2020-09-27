@@ -15,7 +15,9 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (id, done) {
-    done(null, id);
+    User.findOne(id).then((user) => {
+        done(null, user);
+    });
 });
 
 passport.use(
