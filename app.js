@@ -78,6 +78,8 @@ app.use(
     cookieSession({
         name: "dexcom_user",
         secret: process.env.SESSION_SECRET,
+        sameSite: "none",
+        secure: true,
     })
 );
 app.use(passport.initialize());
