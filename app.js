@@ -79,9 +79,9 @@ app.use(
     cookieSession({
         name: "dexcom_user",
         secret: process.env.SESSION_SECRET,
-        // sameSite: "none",
-        // secure: true,
-        // httpOnly: true,
+        sameSite: "none",
+        secure: true,
+        httpOnly: true,
     })
 );
 app.use(passport.initialize());
