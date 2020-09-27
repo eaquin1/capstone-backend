@@ -32,9 +32,9 @@ router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
     // }).
     //console.log("user", req.session.passport.user);
     const token = createToken(req.session.passport.user);
-    req.session.save(() => {
-        res.redirect(`${frontEnd}/home`);
-    });
+    console.log(req.session);
+    req.session.save();
+    res.redirect(`${frontEnd}/home`);
 });
 
 //route to check cookie against req.sessionID
