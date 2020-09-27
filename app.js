@@ -20,7 +20,7 @@ const frontEnd =
 
 //allow front end calls
 
-app.use(shouldSendSameSiteNone);
+//app.use(shouldSendSameSiteNone);
 app.use(
     cors({
         credentials: true,
