@@ -25,29 +25,30 @@ app.use(
         credentials: true,
         origin: [frontEnd, `${frontEnd}/home`],
         //allowedHeaders: ["Content-Type", "Authorization"],
+        exposedHeaders: true,
         methods: ["GET", "POST", "PUT", "HEAD", "PATCH", "DELETE"],
     })
 );
 
-let ALLOWED_ORIGINS = [
-    frontEnd,
-    "https://developer-portal-dot-g5-dexcom-prod-us-5.appspot.com/",
-    "https://dexcom-tracker.herokuapp.com",
-];
+// let ALLOWED_ORIGINS = [
+//     frontEnd,
+//     "https://developer-portal-dot-g5-dexcom-prod-us-5.appspot.com/",
+//     "https://dexcom-tracker.herokuapp.com",
+// ];
 
-app.use((req, res, next) => {
-    let origin = req.headers.origin;
-    let theOrigin =
-        ALLOWED_ORIGINS.indexOf(origin) >= 0 ? origin : ALLOWED_ORIGINS[0];
-    console.log("origin", theOrigin);
-    res.header("Access-Control-Allow-Origin", theOrigin);
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept"
-    );
+// app.use((req, res, next) => {
+//     let origin = req.headers.origin;
+//     let theOrigin =
+//         ALLOWED_ORIGINS.indexOf(origin) >= 0 ? origin : ALLOWED_ORIGINS[0];
+//     console.log("origin", theOrigin);
+//     res.header("Access-Control-Allow-Origin", theOrigin);
+//     res.header(
+//         "Access-Control-Allow-Headers",
+//         "Origin, X-Requested-With, Content-Type, Accept"
+//     );
 
-    next();
-});
+//     next();
+// });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
