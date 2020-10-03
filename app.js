@@ -25,7 +25,7 @@ app.use(
         credentials: true,
         origin: [frontEnd, `${frontEnd}/home`],
         //allowedHeaders: ["Content-Type", "Authorization"],
-        exposedHeaders: true,
+
         methods: ["GET", "POST", "PUT", "HEAD", "PATCH", "DELETE"],
     })
 );
