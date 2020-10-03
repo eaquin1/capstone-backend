@@ -35,10 +35,20 @@ router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
     //console.log("user", req.session.passport.user);
 
     // console.log("req.session inside redirect", req.session.passport);
-    //req.session.save(() => {
-    return res.redirect(`${frontEnd}/home`);
-    //);
+    req.session.save(() => {
+        res.redirect('/home');
+    });
 });
+
+//extra redirect route
+router.get("/home", (req, res, next) => {
+    try{
+        res.redirect(`${frontEnd}/home`)
+    } catch(error{
+        next(error)
+    }
+    
+})
 
 //route to check cookie against req.sessionID
 router.get("/user", (req, res, next) => {
