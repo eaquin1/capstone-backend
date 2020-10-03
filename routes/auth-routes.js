@@ -36,7 +36,7 @@ router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
 
     // console.log("req.session inside redirect", req.session.passport);
     req.session.save(() => {
-        res.redirect("/home");
+        res.redirect("auth/home");
     });
 });
 
