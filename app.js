@@ -67,6 +67,7 @@ app.use(
             client: redisClient,
         }),
         name: "dexcom_user",
+        proxy: true,
         secret: process.env.SESSION_SECRET,
         resave: false,
         maxAge: 2 * 60 * 60 * 1000,
