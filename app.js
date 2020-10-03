@@ -23,7 +23,7 @@ const frontEnd =
 app.use(
     cors({
         credentials: true,
-        origin: frontEnd,
+        origin: [frontEnd, `${frontEnd}/home`],
         //allowedHeaders: ["Content-Type", "Authorization"],
         methods: ["GET", "POST", "PUT", "HEAD", "PATCH", "DELETE"],
     })
