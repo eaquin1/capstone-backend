@@ -12,7 +12,6 @@ const redisStore = require("connect-redis")(session);
 const { v4: uuid } = require("uuid");
 const ExpressError = require("./expressError");
 
-const cookieSession = require("cookie-session");
 const frontEnd =
     process.env.NODE_ENV === "production"
         ? process.env.FRONT_END

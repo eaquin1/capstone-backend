@@ -32,7 +32,7 @@ router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
     //     sameSite: "none",
     //     secure: true,
     // }).redirect(`${frontEnd}/home`);
-    //console.log("user", req.session.passport.user);
+    console.log("user, inside redirect", req.session.passport.user);
 
     // console.log("req.session inside redirect", req.session.passport);
     req.session.save(() => {
@@ -42,8 +42,8 @@ router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
 
 //route to check cookie against req.sessionID
 router.get("/user", (req, res, next) => {
-    console.log("req.session.passport", req.sessionID);
-    console.log("Authenticated?", req.isAuthenticated());
+    console.log("req.session.passport, inside auth check", req.sessionID);
+    console.log("Authenticated?, inside auth check", req.isAuthenticated());
     try {
         if (req.isAuthenticated()) {
             const token = createToken(req.session.passport.user);
