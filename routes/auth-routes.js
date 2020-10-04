@@ -26,19 +26,19 @@ router.get(
 );
 
 // callback route for dexcom to redirect to
-router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
-    // res.cookie("id", req.sessionID, {
-    //     expires: new Date(Date.now() + 7200 * 1000),
-    //     sameSite: "none",
-    //     secure: true,
-    // }).redirect(`${frontEnd}/home`);
-    console.log("inside redirect");
-
-    // console.log("req.session inside redirect", req.session.passport);
-    req.session.save(() => {
-        res.redirect(`${frontEnd}/home`);
-    });
-});
+router.get(
+    "/dexcom/redirect",
+    passport.authenticate("oauth2"),
+    async (req, res) => {
+        try {
+            req.session.save(() => {
+                res.redirect(`${frontEnd}/home`);
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+);
 
 //route to check cookie against req.sessionID
 router.get("/user", (req, res, next) => {
