@@ -67,7 +67,6 @@ app.use(
             sameSite: "none",
             httpOnly: true,
             expires: expiryDate,
-            domain: ".t1d-sugar-tracker.herokuapp.com",
         },
         saveUninitialized: false,
     })
