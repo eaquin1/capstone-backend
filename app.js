@@ -1,5 +1,6 @@
 const express = require("express");
 const { shouldSendSameSiteNone } = require("should-send-same-site-none");
+const helmet = require("helmet");
 const app = express();
 const cors = require("cors");
 const passport = require("passport");
@@ -29,7 +30,7 @@ app.use(
         methods: ["GET", "POST", "PUT", "HEAD", "PATCH", "DELETE"],
     })
 );
-
+app.use(helmet());
 // let ALLOWED_ORIGINS = [
 //     frontEnd,
 //     "https://developer-portal-dot-g5-dexcom-prod-us-5.appspot.com/",
