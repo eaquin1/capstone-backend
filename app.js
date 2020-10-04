@@ -20,7 +20,7 @@ const frontEnd =
 
 //allow front end calls
 
-//app.use(shouldSendSameSiteNone);
+app.use(shouldSendSameSiteNone);
 app.use(
     cors({
         credentials: true,
@@ -68,6 +68,7 @@ app.use(
             // port: 6480, // 6379,
             client: redisClient,
         }),
+        proxy: true,
         name: "dexcom_user",
         secret: process.env.SESSION_SECRET,
         resave: false,
@@ -76,15 +77,7 @@ app.use(
         saveUninitialized: false,
     })
 );
-// app.use(
-//     cookieSession({
-//         name: "dexcom_user",
-//         secret: process.env.SESSION_SECRET,
-//         sameSite: "none",
-//         secure: true,
-//         httpOnly: true,
-//     })
-// );
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(shouldSendSameSiteNone);
