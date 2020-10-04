@@ -16,10 +16,10 @@ passport.serializeUser(function (user, done) {
 
 passport.deserializeUser(function (id, done) {
     console.log("deserialize id", id);
-    User.findOne(id).then((user) => {
+    User.findOne(id.dexcom_id).then((user) => {
         console.log("deserialize user", user);
 
-        done(null, id);
+        done(null, user);
     });
 });
 

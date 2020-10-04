@@ -67,7 +67,7 @@ app.use(
             sameSite: "none",
             httpOnly: true,
             expires: expiryDate,
-            //domain: frontEnd,
+            domain: frontEnd,
         },
         saveUninitialized: false,
     })
