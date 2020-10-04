@@ -15,10 +15,10 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (id, done) {
-    User.findOne(id).then((user) => {
-        console.log("deserialize", user);
-        done(null, user);
-    });
+    // User.findOne(id).then((user) => {
+    //     console.log("deserialize", user);
+    done(null, id);
+    // });
 });
 
 passport.use(

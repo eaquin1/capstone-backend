@@ -31,31 +31,14 @@ app.use(
     })
 );
 app.use(helmet());
-// let ALLOWED_ORIGINS = [
-//     frontEnd,
-//     "https://developer-portal-dot-g5-dexcom-prod-us-5.appspot.com/",
-//     "https://dexcom-tracker.herokuapp.com",
-// ];
 
-// app.use((req, res, next) => {
-//     let origin = req.headers.origin;
-//     let theOrigin =
-//         ALLOWED_ORIGINS.indexOf(origin) >= 0 ? origin : ALLOWED_ORIGINS[0];
-//     console.log("origin", theOrigin);
-//     res.header("Access-Control-Allow-Origin", theOrigin);
-//     res.header(
-//         "Access-Control-Allow-Headers",
-//         "Origin, X-Requested-With, Content-Type, Accept"
-//     );
-
-//     next();
-// });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 redisClient.on("error", (err) => {
     console.log("Redis error: ", err);
 });
+
 app.set("trust proxy", 1);
 app.use(
     session({
@@ -63,9 +46,6 @@ app.use(
             return uuid(); //use UUIDs for session IDs
         },
         store: new redisStore({
-            //host: "localhost",
-            //url: process.env.REDIS_URL,
-            // port: 6480, // 6379,
             client: redisClient,
         }),
         proxy: true,
@@ -85,7 +65,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(shouldSendSameSiteNone);
+
 app.use("/auth", authRoutes);
 app.use("/data", dataRoutes);
 
