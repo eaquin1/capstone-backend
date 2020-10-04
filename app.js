@@ -72,8 +72,13 @@ app.use(
         name: "dexcom_user",
         secret: process.env.SESSION_SECRET,
         resave: false,
-        maxAge: 2 * 60 * 60 * 1000,
-        cookie: { secure: true, sameSite: "none", httpOnly: true },
+
+        cookie: {
+            secure: true,
+            sameSite: "none",
+            httpOnly: true,
+            maxAge: 2 * 60 * 60 * 1000,
+        },
         saveUninitialized: false,
     })
 );
