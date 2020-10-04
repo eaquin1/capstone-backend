@@ -32,7 +32,7 @@ router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
     //     sameSite: "none",
     //     secure: true,
     // }).redirect(`${frontEnd}/home`);
-    console.log("user, inside redirect", req.session.passport.user);
+    console.log("inside redirect");
 
     // console.log("req.session inside redirect", req.session.passport);
     req.session.save(() => {
@@ -58,8 +58,6 @@ router.get("/user", (req, res, next) => {
 
 router.get("/logout", (req, res) => {
     req.logout();
-    // req.session = null;
-    // res.end();
     req.session.destroy((err) => {
         res.send("Logged Out");
     });
