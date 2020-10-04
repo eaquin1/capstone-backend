@@ -42,7 +42,10 @@ router.get("/dexcom/redirect", passport.authenticate("oauth2"), (req, res) => {
 
 //route to check cookie against req.sessionID
 router.get("/user", (req, res, next) => {
-    console.log("req.session.passport, inside auth check", req.sessionID);
+    console.log(
+        "req.session.passport.user, inside auth check",
+        req.session.passport.user
+    );
     console.log("Authenticated?, inside auth check", req.isAuthenticated());
     try {
         if (req.isAuthenticated()) {
