@@ -61,7 +61,7 @@ app.use(
         name: "dexcom_user",
         secret: process.env.SESSION_SECRET,
         resave: false,
-
+        proxy: true,
         cookie: {
             secure: true,
             sameSite: "none",
