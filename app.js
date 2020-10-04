@@ -24,7 +24,7 @@ app.use(shouldSendSameSiteNone);
 app.use(
     cors({
         credentials: true,
-        origin: [frontEnd, `${frontEnd}/home`],
+        origin: frontEnd,
         //allowedHeaders: ["Content-Type", "Authorization"],
 
         methods: ["GET", "POST", "PUT", "HEAD", "PATCH", "DELETE"],
@@ -40,6 +40,7 @@ redisClient.on("error", (err) => {
 });
 
 app.set("trust proxy", 1);
+const expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 app.use(
     session({
         genid: (req) => {
@@ -57,7 +58,8 @@ app.use(
             secure: true,
             sameSite: "none",
             httpOnly: true,
-            maxAge: 2 * 60 * 60 * 1000,
+            expires: expiryDate,
+            domain: frontEnd,
         },
         saveUninitialized: false,
     })
