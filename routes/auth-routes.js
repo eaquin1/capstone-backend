@@ -31,6 +31,7 @@ router.get(
     passport.authenticate("oauth2"),
     async (req, res) => {
         try {
+            console.log("req.session", req.session);
             req.session.save(() => {
                 res.redirect(`${frontEnd}/home`);
             });
