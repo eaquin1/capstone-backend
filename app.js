@@ -86,7 +86,7 @@ app.use(
 // );
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(shouldSendSameSiteNone);
 app.use("/auth", authRoutes);
 app.use("/data", dataRoutes);
 
