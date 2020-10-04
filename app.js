@@ -18,7 +18,6 @@ const frontEnd =
         ? process.env.FRONT_END
         : "http://localhost:3000";
 
-//allow front end calls
 app.use(function (req, res, next) {
     if (req.header("x-forwarded-proto") !== "https") {
         console.log("redirecting to secure");
@@ -29,6 +28,7 @@ app.use(function (req, res, next) {
 });
 
 app.use(shouldSendSameSiteNone);
+//allow front end calls
 app.use(
     cors({
         credentials: true,
