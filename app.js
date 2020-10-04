@@ -68,7 +68,7 @@ app.use(
             httpOnly: true,
             expires: expiryDate,
         },
-        saveUninitialized: false,
+        saveUninitialized: true,
     })
 );
 
