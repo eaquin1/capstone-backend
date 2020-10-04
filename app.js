@@ -57,7 +57,7 @@ app.use(
         store: new redisStore({
             client: redisClient,
         }),
-        proxy: true,
+        //proxy: true,
         name: "dexcom_user",
         secret: process.env.SESSION_SECRET,
         resave: false,
@@ -67,7 +67,7 @@ app.use(
             sameSite: "none",
             httpOnly: true,
             expires: expiryDate,
-            domain: frontEnd,
+            //domain: frontEnd,
         },
         saveUninitialized: false,
     })
