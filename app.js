@@ -47,7 +47,7 @@ redisClient.on("error", (err) => {
     console.log("Redis error: ", err);
 });
 
-app.set("trust proxy", 1);
+//app.set("trust proxy", 1);
 const expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 app.use(
     session({
@@ -68,7 +68,7 @@ app.use(
             httpOnly: true,
             expires: expiryDate,
         },
-        saveUninitialized: true,
+        saveUninitialized: false,
     })
 );
 
