@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 import TypingScript from "./TypingScript";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5000";
+//const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5000";
 const useStyles = makeStyles({
     mainContainer: {
         justifyContent: "center",
@@ -75,9 +75,7 @@ function Landing() {
                 </p>
             </Grid>
             <Grid item>
-                <Button href={`${BASE_URL}/auth/dexcom`}>
-                    Log into Dexcom
-                </Button>
+                <Button href={`/auth/dexcom`}>Log into Dexcom</Button>
             </Grid>
         </Grid>
     );
