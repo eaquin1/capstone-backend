@@ -14,10 +14,10 @@ const redisStore = require("connect-redis")(session);
 const { v4: uuid } = require("uuid");
 const ExpressError = require("./expressError");
 
-const frontEnd =
-    process.env.NODE_ENV === "production"
-        ? process.env.FRONT_END
-        : "http://localhost:3000";
+// const frontEnd =
+//     process.env.NODE_ENV === "production"
+//         ? process.env.FRONT_END
+//         : "http://localhost:3000";
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));
@@ -33,15 +33,16 @@ app.use(express.static(path.join(__dirname, "client/build")));
 
 app.use(shouldSendSameSiteNone);
 //allow front end calls
-app.use(
-    cors({
-        credentials: true,
-        origin: frontEnd,
-        //allowedHeaders: ["Content-Type", "Authorization"],
+app
+    .use
+    // cors({
+    //     credentials: true,
+    //     origin: frontEnd,
+    //     //allowedHeaders: ["Content-Type", "Authorization"],
 
-        methods: ["GET", "POST", "PUT", "HEAD", "PATCH", "DELETE"],
-    })
-);
+    //     methods: ["GET", "POST", "PUT", "HEAD", "PATCH", "DELETE"],
+    // })
+    ();
 app.use(helmet());
 
 app.use(express.json());
