@@ -4,10 +4,10 @@ const router = express.Router();
 const passport = require("passport");
 const createToken = require("../helpers/createToken");
 
-const frontEnd =
-    process.env.NODE_ENV === "production"
-        ? process.env.FRONT_END
-        : "http://localhost:3000";
+// const frontEnd =
+//     process.env.NODE_ENV === "production"
+//         ? process.env.FRONT_END
+//         : "http://localhost:3000";
 
 // auth with Dexcom
 router.get(
@@ -33,7 +33,7 @@ router.get(
         try {
             console.log("req.session", req.session);
             req.session.save(() => {
-                res.redirect(`${frontEnd}/home`);
+                res.redirect(`/home`);
             });
         } catch (error) {
             next(error);
