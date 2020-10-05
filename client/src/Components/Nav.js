@@ -4,7 +4,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5000";
+//const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5000";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,7 +45,7 @@ function Nav({ user, logout }) {
     const loggedOut = (
         <Button
             color="inherit"
-            href={`${BASE_URL}/auth/dexcom`}
+            href={`/auth/dexcom`}
             className={classes.menuButton}
         >
             Login
