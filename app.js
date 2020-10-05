@@ -33,16 +33,15 @@ app.use(express.static(path.join(__dirname, "client/build")));
 
 app.use(shouldSendSameSiteNone);
 //allow front end calls
-app.use(
-    cors()
-    //{
-    //     credentials: true,
-    //     origin: frontEnd,
-    //     //allowedHeaders: ["Content-Type", "Authorization"],
+// app.use(
+//     cors({
+//         credentials: true,
+//         //origin: frontEnd,
+//         //allowedHeaders: ["Content-Type", "Authorization"],
 
-    //     methods: ["GET", "POST", "PUT", "HEAD", "PATCH", "DELETE"],
-    // })
-);
+//         methods: ["GET", "POST", "PUT", "HEAD", "PATCH", "DELETE"],
+//     })
+// );
 //app.use(helmet());
 
 app.use(express.json());
@@ -67,10 +66,12 @@ app.use(
         resave: false,
         //proxy: true,
         cookie: {
-            secure: true,
-            sameSite: "none",
-            httpOnly: true,
-            expires: expiryDate,
+            secure: false,
+            httpOnly: false,
+            // secure: true,
+            // sameSite: "none",
+            // httpOnly: true,
+            // expires: expiryDate,
         },
         saveUninitialized: false,
     })

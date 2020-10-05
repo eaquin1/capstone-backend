@@ -1,11 +1,14 @@
 import axios from "axios";
 
 //const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5000";
-const instance = axios.create({
-    //withCredentials: true,
-    //origin: true,
-    //baseURL: BASE_URL,
-});
+const instance = axios
+    .create
+    //     {
+    //     withCredentials: true,
+    //     //origin: true,
+    //     //baseURL: BASE_URL,
+    // }
+    ();
 class Api {
     static async sugars(dates) {
         let res = await instance.get(`/data/egvs`, {
