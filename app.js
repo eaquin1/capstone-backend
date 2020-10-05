@@ -33,16 +33,16 @@ app.use(express.static(path.join(__dirname, "client/build")));
 
 app.use(shouldSendSameSiteNone);
 //allow front end calls
-app
-    .use
-    // cors({
+app.use(
+    cors()
+    //{
     //     credentials: true,
     //     origin: frontEnd,
     //     //allowedHeaders: ["Content-Type", "Authorization"],
 
     //     methods: ["GET", "POST", "PUT", "HEAD", "PATCH", "DELETE"],
     // })
-    ();
+);
 app.use(helmet());
 
 app.use(express.json());
