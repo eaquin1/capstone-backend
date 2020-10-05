@@ -3,6 +3,7 @@ const { shouldSendSameSiteNone } = require("should-send-same-site-none");
 const helmet = require("helmet");
 const app = express();
 const cors = require("cors");
+const path = require("path");
 const passport = require("passport");
 const authRoutes = require("./routes/auth-routes");
 const dataRoutes = require("./routes/data-routes");
@@ -18,14 +19,17 @@ const frontEnd =
         ? process.env.FRONT_END
         : "http://localhost:3000";
 
-app.use(function (req, res, next) {
-    if (req.header("x-forwarded-proto") !== "https") {
-        console.log("redirecting to secure");
-        res.redirect("https://" + req.header("host") + req.url);
-    } else {
-        next();
-    }
-});
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "client/build")));
+
+// app.use(function (req, res, next) {
+//     if (req.header("x-forwarded-proto") !== "https") {
+//         console.log("redirecting to secure");
+//         res.redirect("https://" + req.header("host") + req.url);
+//     } else {
+//         next();
+//     }
+// });
 
 app.use(shouldSendSameSiteNone);
 //allow front end calls
@@ -57,11 +61,10 @@ app.use(
         store: new redisStore({
             client: redisClient,
         }),
-        //proxy: true,
         name: "dexcom_user",
         secret: process.env.SESSION_SECRET,
         resave: false,
-        proxy: true,
+        //proxy: true,
         cookie: {
             secure: true,
             sameSite: "none",
@@ -77,6 +80,12 @@ app.use(passport.session());
 
 app.use("/auth", authRoutes);
 app.use("/data", dataRoutes);
+
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
 
 app.use(function (req, res, next) {
     const err = new ExpressError("Not Found", 404);
