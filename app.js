@@ -43,7 +43,7 @@ app.use(
     //     methods: ["GET", "POST", "PUT", "HEAD", "PATCH", "DELETE"],
     // })
 );
-app.use(helmet());
+//app.use(helmet());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
