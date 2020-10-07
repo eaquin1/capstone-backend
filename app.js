@@ -22,14 +22,14 @@ const ExpressError = require("./expressError");
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));
 
-// app.use(function (req, res, next) {
-//     if (req.header("x-forwarded-proto") !== "https") {
-//         console.log("redirecting to secure");
-//         res.redirect("https://" + req.header("host") + req.url);
-//     } else {
-//         next();
-//     }
-// });
+app.use(function (req, res, next) {
+    if (req.header("x-forwarded-proto") !== "https") {
+        console.log("redirecting to secure");
+        res.redirect("https://" + req.header("host") + req.url);
+    } else {
+        next();
+    }
+});
 
 app.use(shouldSendSameSiteNone);
 //allow front end calls
